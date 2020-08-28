@@ -1,0 +1,47 @@
+-- CREATE TABLE test
+-- (
+--     name text NOT NULL ,
+--     time numeric(10, 2) NOT NULL ,
+--     index boolean NOT NULL DEFAULT FALSE
+-- );
+
+-- ALTER TABLE test ALTER COLUMN avg SET DEFAULT
+
+-- CREATE INDEX test_fare_index ON ticket_flights (fare_conditions);
+
+-- SELECT count( * )
+-- FROM ticket_flights
+-- WHERE fare_conditions = 'Comfort';
+--
+-- SELECT count( * )
+-- FROM ticket_flights
+-- WHERE fare_conditions = 'Business';
+--
+-- SELECT count( * )
+-- FROM ticket_flights
+-- WHERE fare_conditions = 'Economy';
+
+-- INSERT INTO test (name, time, index) VALUES ('Comfort', 24, TRUE ),
+--                                      ('Comfort', 23, TRUE ),
+--                                      ('Comfort', 24, TRUE ),
+--                                      ('Business', 89, TRUE ),
+--                                      ('Business', 96, TRUE ),
+--                                      ('Business', 96, TRUE ),
+--                                      ('Economy', 129, TRUE ),
+--                                      ('Economy', 135, TRUE ),
+--                                      ('Economy', 142, TRUE );
+
+SELECT name,
+       time,
+       avg(time) OVER
+           (PARTITION BY name, index) AS avg_time,
+       index FROM test ORDER BY index, name;
+
+
+-- 124 127 124
+-- 135 133 150
+-- 156 154 153
+
+-- 24 23 24
+-- 89 96 96
+-- 129 135 142
